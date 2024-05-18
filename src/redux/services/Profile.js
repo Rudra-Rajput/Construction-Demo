@@ -31,10 +31,20 @@ export const profileApi = createApi({
       },
     }),
 
+    addTask: build.mutation({
+      query() {
+        return {
+          url: 'task',
+          method: 'POST',
+        };
+      },
+    }),
+
   }),
 });
 
 export const {
+   useAddTaskMutation,
    useGetAllTaskQuery,
    useStaffLoginMutation,
 } = profileApi;

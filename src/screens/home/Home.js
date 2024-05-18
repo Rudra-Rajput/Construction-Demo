@@ -3,7 +3,7 @@ import {StyleSheet, Text, TouchableOpacity, View, Image, FlatList, ActivityIndic
 import customCss from '../../css/Index';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useIsFocused} from '@react-navigation/native';
-import { useGetAllTaskQuery } from '../../redux/services/Profile';
+import { useGetAllTaskQuery, useAddTaskMutation } from '../../redux/services/Profile';
 import { useDispatch, useSelector } from 'react-redux';
 import { getToken } from '../../redux/services/LocalStorage';
 import { setUserToken } from '../../redux/slices/authSlice';
@@ -11,9 +11,35 @@ import NetInfo from '@react-native-community/netinfo';
 
 const Home = ({navigation}) => {
 
+  const [data, setData] = useState([]);
+  console.log(data, 'data')
+
+  const isFocused = useIsFocused();
+
+  useEffect(() => {
+    getData();
+  }, [isFocused]);
+
+  const getData = async () => {
+    const data = await AsyncStorage.getItem('DATA');
+    setData(JSON.parse(data));
+  };
+
   const [isConnected, setIsConnected] = useState(null);
   const [showPopup, setShowPopup] = useState(false);
   const fadeAnim = useState(new Animated.Value(0))[0];
+
+  const [addTask] = useAddTaskMutation();
+
+  useEffect(() => {
+    handleTask()
+  }, [isConnected])
+
+  const handleTask = async () => {
+     const data = {}
+     const res = await addTask(data)
+     console.log(res, 'response')
+  }
 
   useEffect(() => {
     // Subscribe to network state updates
@@ -50,22 +76,8 @@ const Home = ({navigation}) => {
   const { token } = useSelector(state => state.auth);
   console.log(token, '00000')
 
-  const [data, setData] = useState([]);
-  console.log(data, 'data')
-
   const { data:task, isLoading } = useGetAllTaskQuery(token);
   console.log(task, 'task')
-
-  const isFocused = useIsFocused();
-
-  useEffect(() => {
-    getData();
-  }, [isFocused]);
-
-  const getData = async () => {
-    const data = await AsyncStorage.getItem('DATA');
-    setData(JSON.parse(data));
-  };
 
   return (
     <>
