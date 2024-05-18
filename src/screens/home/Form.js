@@ -9,7 +9,7 @@ let data = [];
 const Form = ({navigation}) => {
 
   const [name, setName] = useState('');
-  const [description, setDescription] = useState('');
+  const [taskDescription, setDescription] = useState('');
   const [image, setImage] = useState('');
 
   const handleSubmit = async () => {
@@ -21,7 +21,7 @@ const Form = ({navigation}) => {
       tempData?.map(item => {
         data.push(item);
       });
-      data.push({name: name, description: description, image: image});
+      data.push({taskName: name, taskDescription: taskDescription, taskFiles: image});
       await AsyncStorage.setItem('DATA', JSON.stringify(data));
       navigation.navigate('Main');
     }
@@ -58,12 +58,12 @@ const Form = ({navigation}) => {
         onPress={() => selectDocument()}
         activeOpacity={0.9}
         style={styles.imagesContainer}>
-        <Image source={{uri: image.uri ? image.uri :'https://images.picxy.com/cache/2020/9/15/0e1ec83ed64ab84897d2cdd18a176ca9.jpg'}} style={{width: 200, height: 200, borderRadius: 20}}/>
+        <Image source={{uri: image.uri ? image.uri :'https://st2.depositphotos.com/3904951/8925/v/450/depositphotos_89250312-stock-illustration-photo-picture-web-icon-in.jpg'}} style={{width: 200, height: 200, borderRadius: 20}}/>
       </TouchableOpacity>
 
       <View style={styles.textInput}>
         <TextInput
-          label="Name"
+          label="Task"
           value={name}
           style={{backgroundColor: '#FFFFFF'}}
           onChangeText={text => setName(text)}
@@ -72,7 +72,7 @@ const Form = ({navigation}) => {
       <View style={[styles.textInput, {marginTop: '8%'}]}>
         <TextInput
           label="Description"
-          value={description}
+          value={taskDescription}
           style={{backgroundColor: '#FFFFFF'}}
           multiline={true}
           numberOfLines={3}
