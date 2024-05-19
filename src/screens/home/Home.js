@@ -48,7 +48,7 @@ const Home = ({navigation}) => {
       setIsConnected(state.isConnected);
       setShowPopup(true);
 
-      // Start the fade in animation
+      // Start the fade-in animation
       Animated.timing(fadeAnim, {
         toValue: 1,
         duration: 500,
@@ -70,6 +70,7 @@ const Home = ({navigation}) => {
 
           if (storedData && storedData.length > 0) {
             const token = await getToken();
+            const successfulTasks = [];
 
             for (const item of storedData) {
               const formData = new FormData();
@@ -87,13 +88,20 @@ const Home = ({navigation}) => {
                 });
               }
 
-              const res = await addTask({data: formData, token});
-              if (res) {
-                await AsyncStorage.clear();
-              }
+              const res = await addTask({ data: formData, token });
               if (res?.data?.success === true) {
-                await AsyncStorage.clear();
+                successfulTasks.push(item);
               }
+            }
+
+            if (successfulTasks.length === storedData.length) {
+              await AsyncStorage.clear();
+            } else {
+              // Remove only the successful tasks from storage
+              const remainingTasks = storedData.filter(
+                item => !successfulTasks.includes(item)
+              );
+              await AsyncStorage.setItem('taskData', JSON.stringify(remainingTasks));
             }
           }
         } catch (error) {
@@ -101,6 +109,7 @@ const Home = ({navigation}) => {
         }
       }
     });
+
     return () => unsubscribe();
   }, [fadeAnim, isFocused]);
 
@@ -187,12 +196,7 @@ const Home = ({navigation}) => {
               justifyContent: 'space-between',
               marginTop: '3%',
             }}>
-            <View style={[styles.card, {backgroundColor: '#5e548f'}]}>
-              <Text style={styles.storeText}>Inactive stores (1)</Text>
-            </View>
-            <View style={[styles.card, {backgroundColor: '#8f5473'}]}>
-              <Text style={styles.storeText}>Newly joined stores (2)</Text>
-            </View>
+            
           </View>
 
           <View style={[styles.table, {marginTop: '10%'}]}>

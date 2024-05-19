@@ -15,6 +15,7 @@ const Form = ({ navigation }) => {
   const [taskDescription, setDescription] = useState('');
   const [additionalData, setAdditionalData] = useState('');
   const [image, setImage] = useState([]);
+  console.log(image, 'image')
 
   const handleSubmit = async () => {
     try {
@@ -130,7 +131,7 @@ const Form = ({ navigation }) => {
         activeOpacity={0.9}
         style={styles.imagesContainer}>
         <Image
-          source={{ uri: image[0].uri ? image[0].uri : 'https://st2.depositphotos.com/3904951/8925/v/450/depositphotos_89250312-stock-illustration-photo-picture-web-icon-in.jpg' }}
+          source={{ uri: image[0]?.uri ? image[0]?.uri : 'https://st2.depositphotos.com/3904951/8925/v/450/depositphotos_89250312-stock-illustration-photo-picture-web-icon-in.jpg' }}
           style={{ width: 200, height: 200, borderRadius: 20 }}
         />
       </TouchableOpacity>

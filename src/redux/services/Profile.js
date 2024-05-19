@@ -32,6 +32,19 @@ export const profileApi = createApi({
       providesTags: ["Tasks"]
     }),
 
+    getAllUser: build.query({
+      query(token) {
+        return {
+          url: 'user/admin',
+          method: 'GET',
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        };
+      },
+      providesTags: ["Tasks"]
+    }),
+
     addTask: build.mutation({
       query({ data, token }) {
         return {
@@ -50,6 +63,7 @@ export const profileApi = createApi({
 });
 
 export const {
+   useGetAllUserQuery,
    useAddTaskMutation,
    useGetAllTaskQuery,
    useStaffLoginMutation,
