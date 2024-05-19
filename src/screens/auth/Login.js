@@ -20,6 +20,8 @@ const Login = ({navigation}) => {
     console.log(res,'response')
     if (res?.data?.success === true) {
       navigation.navigate('Main')
+    } else {
+      alert('Wrong email or password please check and try again')
     }
   }
 

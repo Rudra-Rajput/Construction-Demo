@@ -43,7 +43,7 @@ const Details = ({navigation ,route}) => {
        </View>
       </View>
       
-        <Slider photos={data?.additionalFiles}/>
+      <Slider photos={data?.taskFiles}/>
 
       <View style={{marginHorizontal: '5%', marginTop: '5%'}}>
          <Text style={[styles.headerText, {marginLeft: 0}]}>Task</Text>

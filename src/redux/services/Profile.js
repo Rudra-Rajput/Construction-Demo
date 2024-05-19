@@ -5,7 +5,7 @@ export const profileApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: 'https://constructionserver.boostupdigital.in/api/v1/',
   }),
-   tagTypes: ["User", "Services", "Product", "Shop", "Enquiry"],
+   tagTypes: ["Tasks"],
 
   endpoints: build => ({
 
@@ -29,15 +29,21 @@ export const profileApi = createApi({
           }
         };
       },
+      providesTags: ["Tasks"]
     }),
 
     addTask: build.mutation({
-      query() {
+      query({ data, token }) {
         return {
           url: 'task',
-          method: 'POST',
+          method: 'POST',         
+          headers: {
+            Authorization: `Bearer ${token}`
+          },
+          body:data,
         };
       },
+      invalidatesTags: ["Tasks"]
     }),
 
   }),
